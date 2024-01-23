@@ -5,19 +5,23 @@ using UnityEngine;
 public class FloatingIsland : MonoBehaviour
 {
     private Vector3 startPos;
-
-    [SerializeField] private float frequency;
-    [SerializeField] private float magnitude;
-    [SerializeField] private float offset;
+    public bool randomVariables;
+    [SerializeField, Range(0, 3)] private float frequency;
+    [SerializeField, Range(0, 3)] private float magnitude;
+    [SerializeField, Range(0, 3)] private float offset;
 
     // Start is called before the first frame update
     void Start()
     {
         startPos = transform.position;
 
-        frequency = Random.Range(0.9f, 1.5f);
-        magnitude = Random.Range(0.2f, 0.4f);
-        offset = Random.value * 3;
+        if (randomVariables)
+        {
+            frequency = Random.Range(0.9f, 1.5f);
+            magnitude = Random.Range(0.2f, 0.4f);
+            offset = Random.value * 3;
+
+        }
     }
 
     // Update is called once per frame
