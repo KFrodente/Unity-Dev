@@ -5,9 +5,9 @@ using TMPro;
 
 public class Player : MonoBehaviour, IDamagable
 {
-    [SerializeField] private TMP_Text scoreText;
     [SerializeField] private FloatVariable health;
     [SerializeField] private PlayerController characterController;
+
 
     [Header("Events")]
     [SerializeField] private IntEvent scoreEvent = default;
@@ -21,7 +21,6 @@ public class Player : MonoBehaviour, IDamagable
         set 
         { 
             score = value; 
-            scoreText.text = "Score: " + score;
             scoreEvent.RaiseEvent(score);
         } 
     }

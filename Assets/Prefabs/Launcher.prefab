@@ -4876,3 +4876,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchForce: 20
   launchPlayerEvent: {fileID: 11400000, guid: c4a58e4d0f9b7e8409c375b82c5045f9, type: 2}
+  launchSound: {fileID: 8300000, guid: 8aa8075dff07f51439557c65dc8d943b, type: 3}

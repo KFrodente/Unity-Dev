@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     public Rigidbody rb;
     private Vector3 force;
 
+    public AudioClip jump;
+
 
     private void Start()
     {
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour
         direction.x = Input.GetAxis("Horizontal");
         direction.z = Input.GetAxis("Vertical");
 
+
         Quaternion yRotation = Quaternion.AngleAxis(view.rotation.eulerAngles.y, Vector3.up);
         force = yRotation * direction * maxForce;
         rb.AddForce(force, ForceMode.Force);
@@ -36,6 +39,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(transform.position, Vector3.down * rayLength, Color.green);
         if (Input.GetButtonDown("Jump") && OnGround())
         {
+            AudioController.Instance.PlayClip(jump);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
@@ -54,5 +58,6 @@ public class PlayerController : MonoBehaviour
     public void IncreaseJumpPower(float amount)
     {
         jumpForce += amount;
+        maxForce += amount;
     }
 }

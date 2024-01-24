@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
-	public ParticleSystem explosion;
+	public ParticleSystem fire;
 
-	public AudioClip[] clips;
 
+	public AudioSource source;
+	public AudioClip bump;
 
 
 	private void OnTriggerEnter(Collider other)
@@ -16,7 +17,11 @@ public class Pickup : MonoBehaviour
 		{
 			GetComponent<FollowPlayer>().setState(FollowPlayer.State.FOLLOWING);
 			GetComponent<FollowPlayer>().followTarget = player.gameObject;
-
         }
+		if (GetComponent<FollowPlayer>().state != FollowPlayer.State.COLLECTED)
+		{
+			source.pitch = Random.Range(.8f, 1.3f);
+			source.PlayOneShot(bump);
+		}
 	}
 }

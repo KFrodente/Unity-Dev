@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
     public enum State
     {
-        IDLE, FOLLOWING, COLLECTED
+        SPAWN, IDLE, FOLLOWING, COLLECTED
     }
 
-    public State state { get; private set; }
+    private Transform spawnPos;
+
+    public State state { get; private set; } = State.SPAWN;
 
     public GameObject followTarget;
-    private bool collected;
+    public bool collected;
 
     [SerializeField] private float minFollowDistance;
     [SerializeField] private float speed;
@@ -23,12 +26,20 @@ public class FollowPlayer : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        spawnPos = transform;
     }
 
     private void Update()
     {
         switch (state)
         {
+            case State.SPAWN:
+                transform.position = new Vector3(spawnPos.position.x, spawnPos.position.y, spawnPos.position.z);
+                rb.velocity = Vector3.zero;
+                collected = false;
+                state = State.IDLE;
+                //Debug.Log(spawnPos.transform.position + name);
+                break;
             case State.IDLE:
                 rotator.speed = 5;
                 rb.velocity = new Vector3(0, rb.velocity.y, 0);
