@@ -15,8 +15,9 @@ public class TimePickUp : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            fEvent.RaiseEvent(timeToRemove);
+            fEvent.RaiseEvent(-timeToRemove);
             Instantiate(explosion, transform.position, transform.rotation);
+            AudioController.Instance.PlayClipAtPitch(pickupSound, 2);
             Destroy(gameObject);
         }
     }

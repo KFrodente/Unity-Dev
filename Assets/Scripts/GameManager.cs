@@ -1,12 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using UnityEditor.SearchService;
-using System.Runtime.CompilerServices;
-using UnityEngine.SceneManagement;
-using System;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -47,7 +40,7 @@ public class GameManager : Singleton<GameManager>
     public float Timer
     {
         get { return timer; }
-        set { timer = value; timerUI.text = string.Format("{0:F2}", timer); }
+        set { timer = Mathf.Clamp(value, 0, 1000); timerUI.text = string.Format("{0:F2}", timer); }
     }
 
     private void OnEnable()
@@ -62,6 +55,10 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
+        if (Input.GetButtonDown("End"))
+        {
+            state = State.GAME_OVER;
+        }
 		switch (state)
 		{
 			case State.TITLE:
@@ -76,11 +73,11 @@ public class GameManager : Singleton<GameManager>
 				break;
 			case State.PLAY_GAME:
                 Time.timeScale = 1;
-                Timer += Time.deltaTime;
+                Timer -= Time.deltaTime;
                 collectionUI.text = "pigeons collected: " + Goal.Instance.pigeonsCollected + " / " + pigeons.Length;
 
 
-                if (Timer > maxTime || Goal.Instance.pigeonsCollected == pigeons.Length) state = State.GAME_OVER;
+                if (Timer <= 0) state = State.GAME_OVER;
 				break;
 			case State.GAME_OVER:
                 gameOverUI.SetActive(true);
@@ -88,10 +85,10 @@ public class GameManager : Singleton<GameManager>
                 Cursor.visible = true;
                 Time.timeScale = 0;
                 pigeonsCollectedUI.text = "Pigeons collected: " + Goal.Instance.pigeonsCollected.ToString() + " / " + pigeons.Length;
-                timeTakenUI.text = "Time taken: " + string.Format("{0:F2}", Timer);
+                timeTakenUI.text = "Time left: " + string.Format("{0:F2}", Timer);
 
-                float maxScore = (pigeons.Length * 1000) * (Timer / (maxTime + 5));
-                float secretScore = (Goal.Instance.pigeonsCollected * 1000) * (Timer / (maxTime + 5));
+                float maxScore = (pigeons.Length * 1000) * ((maxTime) / Timer + 5);
+                float secretScore = (Goal.Instance.pigeonsCollected * 1000) * ((maxTime) / Timer + 5);
                 Debug.Log(secretScore);
 
                 if (Goal.Instance.pigeonsCollected >= pigeons.Length) gradeUI.text = "Grade: S++";
@@ -136,6 +133,7 @@ public class GameManager : Singleton<GameManager>
 
     public void StartGame()
     {
+        respawnEvent.RaiseEvent(respawn);
         Time.timeScale = 1;
         foreach (GameObject pigeon in pigeons)
         {
@@ -143,10 +141,9 @@ public class GameManager : Singleton<GameManager>
         }
         titleUI.SetActive(false);
         gameOverUI.SetActive(false);
-        respawnEvent.RaiseEvent(respawn);
         health.value = 100;
         Goal.Instance.pigeonsCollected = 0;
-        Timer = 0;
+        Timer = maxTime;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         state = State.PLAY_GAME;

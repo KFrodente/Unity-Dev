@@ -53,7 +53,6 @@ public class Player : MonoBehaviour, IDamagable
     {
         transform.position = respawn.transform.position;
         transform.rotation = respawn.transform.rotation;
-        GetComponent<PlayerController>().Reset();
     }
 
     public void LaunchPlayer(float launchForce)

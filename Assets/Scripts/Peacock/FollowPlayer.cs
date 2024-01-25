@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
@@ -64,5 +61,15 @@ public class FollowPlayer : MonoBehaviour
     public void setState(State state)
     {
         this.state = state;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out Death killZone) && !collected)
+        {
+            collected = true;
+            Goal.Instance.onCollectPigeon();
+            Destroy(gameObject);
+        }
     }
 }

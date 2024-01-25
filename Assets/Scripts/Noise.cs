@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.IO.Compression;
+using UnityEngine;
+
+public class Noise : MonoBehaviour
+{
+    [SerializeField] float rate = 1;
+    [SerializeField] Vector3 amplitude = Vector3.one;
+
+    float time = 0;
+    Vector3 origin = Vector3.zero;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+       origin = transform.position;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        time += Time.deltaTime * rate;
+
+        Vector3 offset = Vector3.zero;
+        offset.x = Mathf.PerlinNoise(time, 1) * amplitude.x;
+        offset.y = Mathf.PerlinNoise(time * 1.5f, 1) * amplitude.y;
+        offset.z = Mathf.PerlinNoise(time * time, 1) * amplitude.z;
+
+        transform.position = origin + offset;
+    } 
+}

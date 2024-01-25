@@ -20,6 +20,12 @@ public class AudioController : Singleton<AudioController>
         source.PlayOneShot(clip);
     }
 
+    public void PlayClipAtPitch(AudioClip clip, float pitch)
+    {
+        source.pitch = pitch;
+        source.PlayOneShot(clip);
+    }
+
     public void PlayClipRandomPitch(AudioClip clip)
     {
         source.pitch = Random.Range(.7f, 1.5f);
