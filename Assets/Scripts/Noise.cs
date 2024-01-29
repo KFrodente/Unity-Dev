@@ -24,8 +24,8 @@ public class Noise : MonoBehaviour
 
         Vector3 offset = Vector3.zero;
         offset.x = Mathf.PerlinNoise(time, 1) * amplitude.x;
-        offset.y = Mathf.PerlinNoise(time * 1.5f, 1) * amplitude.y;
-        offset.z = Mathf.PerlinNoise(time * time, 1) * amplitude.z;
+        offset.y = Mathf.PerlinNoise(1, time) * amplitude.y;
+        offset.z = Mathf.PerlinNoise(time, time) * amplitude.z;
 
         transform.position = origin + offset;
     } 
