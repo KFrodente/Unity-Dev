@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Spawner : MonoBehaviour
+public class PersonalSpawner : MonoBehaviour
 {
     public GameObject block;
 
@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour
     private float timer;
     public float timerLength;
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         timer = timerLength;
         for (int i = 0; i < blocksToSpawn; i++)

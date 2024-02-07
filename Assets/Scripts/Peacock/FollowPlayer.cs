@@ -65,7 +65,7 @@ public class FollowPlayer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Death killZone) && !collected)
+        if (other.TryGetComponent(out IDamagable killZone) && !collected)
         {
             collected = true;
             Goal.Instance.onCollectPigeon();

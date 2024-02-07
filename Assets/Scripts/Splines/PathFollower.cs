@@ -11,7 +11,7 @@ public class PathFollower : MonoBehaviour
     [Range(0, 40)] public float speed = 1;
 
 
-    float tdistance = 0; //distance along spline
+    [Range(0, 1)] public float tdistance = 0; //distance along spline
 
     //length in world coordinates
     public float length { get { return splineContainter.CalculateLength(); } }
